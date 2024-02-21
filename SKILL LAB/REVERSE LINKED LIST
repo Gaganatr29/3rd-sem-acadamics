@@ -1,0 +1,47 @@
+3) Write a C program to reverse a linked list.
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct Node {
+ int data;
+ struct Node *next;
+} Node;
+Node* createNode(int data) {
+ Node newNode = (Node)malloc(sizeof(Node));
+ newNode->data = data;
+ newNode->next = NULL;
+ return newNode;
+}
+void insertAtHead(Node **head, int data) {
+ Node *newNode = createNode(data);
+ newNode->next = *head;
+ *head = newNode;
+}
+void reverseLinkedList(Node **head) {
+ Node *prev = NULL, *current = *head, *nextNode = NULL;
+ while (current != NULL) {
+ nextNode = current->next;
+ current->next = prev;
+ prev = current;
+ current = nextNode;
+ }
+ *head = prev;
+}
+void printLinkedList(Node *head) {
+ while (head != NULL) {
+ printf("%d ", head->data);
+ head = head->next;
+ }
+ printf("\n");
+}
+int main() {
+ Node *head = NULL;
+ insertAtHead(&head, 1);
+ insertAtHead(&head, 2);
+ insertAtHead(&head, 3);
+ printf("Original Linked List: ");
+ printLinkedList(head);
+ reverseLinkedList(&head);
+ printf("Reversed Linked List: ");
+ printLinkedList(head);
+ return 0;
+}
